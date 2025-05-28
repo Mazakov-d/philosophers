@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:30:33 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/28 16:02:45 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:31:51 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_data
 	int				time_sleep;
 	int				nb_eat;
 	pthread_mutex_t	write_m;
-	pthread_mutex_t	eat_m;
 	pthread_mutex_t	meal_m;
 	pthread_mutex_t	status_m;
 	long int		start_time;

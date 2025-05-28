@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 23:05:28 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/28 16:17:10 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:22:37 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	loop_check_right(t_philo *philo)
 	}
 	if (check == 0 && *philo->status_r == AVAILABLE)
 	{
-		philo->status_r = UNAVAILABLE;
+		*philo->status_r = UNAVAILABLE;
 		pthread_mutex_unlock(philo->r_f);
 		print_status(philo, FORK);
 	}

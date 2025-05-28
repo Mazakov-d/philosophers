@@ -11,7 +11,7 @@ HEADERS		= philo.h
 
 # Source files
 SRC			= main.c parsing.c threading.c utils.c \
-			set_philos.c check_functions.c 
+			set_philos.c
 
 # Object files
 OBJ			= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

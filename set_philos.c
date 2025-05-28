@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:43:07 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/28 16:16:26 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:32:08 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,15 @@ int	init_destroy_mutex_data(t_data *data, int flag)
 {
 	if (flag == INIT && pthread_mutex_init(&data->write_m, NULL) != 0)
 		return (1);
-	if (flag == INIT && pthread_mutex_init(&data->eat_m, NULL) != 0)
-		return (pthread_mutex_destroy(&data->write_m), 1);
 	if (flag == INIT && pthread_mutex_init(&data->status_m, NULL) != 0)
 	{
 		pthread_mutex_destroy(&data->write_m);
-		pthread_mutex_destroy(&data->eat_m);
 		return (1);
 	}
 	if ((flag == INIT && pthread_mutex_init(&data->meal_m, NULL) != 0)
 		|| flag == DESTROY)
 	{
 		pthread_mutex_destroy(&data->write_m);
-		pthread_mutex_destroy(&data->eat_m);
 		pthread_mutex_destroy(&data->status_m);
 		if (flag == INIT)
 			return (1);
@@ -67,7 +63,6 @@ int	init_destroy_all_mutex(t_all *all, int flag, int max)
 
 void	set_philos_loop(t_all *all, int i)
 {
-	
 	all->philos[i].status_l = AVAILABLE;
 	all->philos[i].id = i + 1;
 	all->philos[i].nb_philos = all->data.nb_philo;

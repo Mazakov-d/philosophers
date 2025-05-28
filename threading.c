@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:22:06 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/28 16:11:03 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:34:08 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	eat_next(t_philo *philo)
 		philo->data->nb_philo_finish += 1;
 	pthread_mutex_unlock(&philo->data->meal_m);
 	print_status(philo, THINK);
-	usleep(50);
+	usleep(10);
 }
 
 void	eat(t_philo *philo)
@@ -63,7 +63,7 @@ void	sleeping(t_philo *philo)
 	print_status(philo, SLEEP);
 	usleep(philo->data->time_sleep * 1000);
 	print_status(philo, THINK);
-	usleep(50);
+	usleep(10);
 }
 
 int	check_death(t_philo *philo)
