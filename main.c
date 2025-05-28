@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dorianmazari <dorianmazari@student.42.f    +#+  +:+       +#+        */
+/*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 15:03:41 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/27 12:08:13 by dorianmazar      ###   ########.fr       */
+/*   Updated: 2025/05/28 16:16:43 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,30 @@ void	free_all(t_all *all)
 	free(all->philos);
 }
 
+int	routine_launcher(t_all *all)
+{
+	int	i;
+
+	i = 0;
+	while (i < all->data.nb_philo)
+	{
+		pthread_create(&all->philos[i].philo, NULL, routine, &all->philos[i]);
+		i++;
+	}
+	i = 0;
+	while (i < all->data.nb_philo)
+	{
+		pthread_join(all->philos[i].philo, NULL);
+		i++;
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_all	all;
 
-	if (parsing(ac, av ,&all.data))
+	if (parsing(ac, av, &all.data))
 		return (ft_put_error("Arguments invalids.", 1));
 	all.philos = malloc(sizeof(t_philo) * all.data.nb_philo);
 	if (!all.philos)

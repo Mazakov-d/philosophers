@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   set_philos.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dorianmazari <dorianmazari@student.42.f    +#+  +:+       +#+        */
+/*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:43:07 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/27 13:08:34 by dorianmazar      ###   ########.fr       */
+/*   Updated: 2025/05/28 16:16:26 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int init_destroy_mutex_data(t_data *data, int flag)
+int	init_destroy_mutex_data(t_data *data, int flag)
 {
 	if (flag == INIT && pthread_mutex_init(&data->write_m, NULL) != 0)
 		return (1);
@@ -24,7 +24,8 @@ int init_destroy_mutex_data(t_data *data, int flag)
 		pthread_mutex_destroy(&data->eat_m);
 		return (1);
 	}
-	if ((flag == INIT && pthread_mutex_init(&data->meal_m, NULL) != 0) || flag == DESTROY)
+	if ((flag == INIT && pthread_mutex_init(&data->meal_m, NULL) != 0)
+		|| flag == DESTROY)
 	{
 		pthread_mutex_destroy(&data->write_m);
 		pthread_mutex_destroy(&data->eat_m);
@@ -36,7 +37,7 @@ int init_destroy_mutex_data(t_data *data, int flag)
 			pthread_mutex_destroy(&data->meal_m);
 			return (0);
 		}
-		}
+	}
 	return (0);
 }
 
@@ -64,6 +65,32 @@ int	init_destroy_all_mutex(t_all *all, int flag, int max)
 	return (0);
 }
 
+void	set_philos_loop(t_all *all, int i)
+{
+	
+	all->philos[i].status_l = AVAILABLE;
+	all->philos[i].id = i + 1;
+	all->philos[i].nb_philos = all->data.nb_philo;
+	all->philos[i].nb_eat = 0;
+	all->philos[i].data = &all->data;
+	all->philos[i].last_eat = 0;
+	if (all->data.nb_philo == 1)
+	{
+		all->philos[i].status_r = NULL;
+		all->philos[i].r_f = NULL;
+	}
+	else if (i < all->data.nb_philo - 1)
+	{
+		all->philos[i].status_r = &all->philos[i + 1].status_l;
+		all->philos[i].r_f = &all->philos[i + 1].l_f;
+	}
+	else
+	{
+		all->philos[i].status_r = &all->philos[0].status_l;
+		all->philos[i].r_f = &all->philos[0].l_f;
+	}
+}
+
 int	set_philos(t_all *all)
 {
 	int	i;
@@ -76,14 +103,7 @@ int	set_philos(t_all *all)
 	}
 	while (i < all->data.nb_philo)
 	{
-		all->philos[i].id = i + 1;
-		all->philos[i].nb_philos = all->data.nb_philo;
-		all->philos[i].nb_eat = 0;
-		all->philos[i].data = &all->data;
-		if (i < all->data.nb_philo - 1)
-			all->philos[i].r_f = &all->philos[i + 1].l_f;
-		else
-			all->philos[i].r_f = &all->philos[0].l_f;
+		set_philos_loop(all, i);
 		i++;
 	}
 	return (0);
