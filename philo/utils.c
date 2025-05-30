@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 23:05:28 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/30 15:48:43 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:13:03 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,50 +32,46 @@ void	print_status(t_philo *philo, char *str, int flag)
 
 void	loop_check_left(t_philo *philo)
 {
-	if (check_death(philo))
-		return ;
-	pthread_mutex_lock(&philo->l_f);
-	if (philo->status_l == UNAVAILABLE)
+	while (!check_death(philo))
 	{
+		pthread_mutex_lock(&philo->l_f);
+		if (philo->status_l == AVAILABLE)
+		{
+			philo->status_l = UNAVAILABLE;
+			pthread_mutex_unlock(&philo->l_f);
+			print_status(philo, FORK, ALIVE);
+			return ;
+		}
 		pthread_mutex_unlock(&philo->l_f);
-		loop_check_left(philo);
-	}
-	if (philo->status_l == AVAILABLE)
-	{
-		philo->status_l = UNAVAILABLE;
-		pthread_mutex_unlock(&philo->l_f);
-		print_status(philo, FORK, ALIVE);
+		usleep(50);
 	}
 }
 
 void	loop_check_right(t_philo *philo)
 {
-	if (check_death(philo))
-		return ;
-	pthread_mutex_lock(philo->r_f);
-	if (*philo->status_r == UNAVAILABLE)
+	while (!check_death(philo))
 	{
+		pthread_mutex_lock(philo->r_f);
+		if (*philo->status_r == AVAILABLE)
+		{
+			*philo->status_r = UNAVAILABLE;
+			pthread_mutex_unlock(philo->r_f);
+			print_status(philo, FORK, ALIVE);
+			return ;
+		}
 		pthread_mutex_unlock(philo->r_f);
-		loop_check_right(philo);
-	}
-	if (*philo->status_r == AVAILABLE)
-	{
-		*philo->status_r = UNAVAILABLE;
-		pthread_mutex_unlock(philo->r_f);
-		print_status(philo, FORK, ALIVE);
+		usleep(50);
 	}
 }
 
 int	set_fork_available(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->l_f);
-	if (check_death(philo))
-		return (DEAD);
 	philo->status_l = AVAILABLE;
 	pthread_mutex_unlock(&philo->l_f);
-	pthread_mutex_lock(philo->r_f);
 	if (check_death(philo))
 		return (DEAD);
+	pthread_mutex_lock(philo->r_f);
 	*philo->status_r = AVAILABLE;
 	pthread_mutex_unlock(philo->r_f);
 	return (0);
