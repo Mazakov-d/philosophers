@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:30:33 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/28 16:31:51 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/30 11:41:03 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int			set_philos(t_all *all);
 ** utils.c
 */
 long int	actual_time(void);
-void		print_status(t_philo *philo, char *str);
+void		print_status(t_philo *philo, char *str, int flag);
 int			loop_check_left(t_philo *philo);
 int			loop_check_right(t_philo *philo);
 int			set_fork_available(t_philo *philo);

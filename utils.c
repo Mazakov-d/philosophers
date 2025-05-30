@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 23:05:28 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/28 16:22:37 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/30 11:43:27 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ long int	actual_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	print_status(t_philo *philo, char *str)
+void	print_status(t_philo *philo, char *str, int flag)
 {
+	if (check_death(philo) && flag != DEAD)
+		return ;
 	pthread_mutex_lock(&philo->data->write_m);
-	printf("%ld", actual_time() - philo->data->start_time);
-	printf(" %d ", philo->id);
-	printf("%s\n", str);
+	printf ("%ld %d %s\n", actual_time() - philo->data->start_time,
+		philo->id, str);
 	pthread_mutex_unlock(&philo->data->write_m);
 }
 
@@ -44,7 +45,7 @@ int	loop_check_left(t_philo *philo)
 	{
 		philo->status_l = UNAVAILABLE;
 		pthread_mutex_unlock(&philo->l_f);
-		print_status(philo, FORK);
+		print_status(philo, FORK, ALIVE);
 	}
 	return (check);
 }
@@ -64,7 +65,7 @@ int	loop_check_right(t_philo *philo)
 	{
 		*philo->status_r = UNAVAILABLE;
 		pthread_mutex_unlock(philo->r_f);
-		print_status(philo, FORK);
+		print_status(philo, FORK, ALIVE);
 	}
 	return (check);
 }
