@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:22:06 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/30 16:00:05 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:16:39 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	eat_next(t_philo *philo)
 	philo->nb_eat += 1;
 	pthread_mutex_lock(&philo->data->meal_m);
 	if (philo->nb_eat == philo->data->nb_eat)
-	philo->data->nb_philo_finish += 1;
+		philo->data->nb_philo_finish += 1;
 	pthread_mutex_unlock(&philo->data->meal_m);
 	if (check_death(philo))
 		return ;
