@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threading.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dorianmazari <dorianmazari@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:22:06 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/30 16:16:39 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:09:37 by dorianmazar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	eat_next(t_philo *philo)
 {
 	print_status(philo, EAT, ALIVE);
 	philo->last_eat = actual_time() - philo->data->start_time;
-	if (ft_usleep(philo, philo->data->time_eat * 1000))
+	if (ft_usleep(philo, philo->data->time_eat))
 		return ;
 	if (set_fork_available(philo))
 		return ;
@@ -38,7 +38,7 @@ void	eat(t_philo *philo)
 		return ;
 	if (!philo->r_f)
 	{
-		ft_usleep(philo, philo->data->time_die * 1000);
+		ft_usleep(philo, philo->data->time_die);
 		return ;
 	}
 	loop_check_right(philo);
@@ -50,7 +50,7 @@ void	eat(t_philo *philo)
 void	sleeping(t_philo *philo)
 {
 	print_status(philo, SLEEP, ALIVE);
-	if (ft_usleep(philo, philo->data->time_sleep * 1000))
+	if (ft_usleep(philo, philo->data->time_sleep))
 		return ;
 	print_status(philo, THINK, ALIVE);
 	usleep(10);

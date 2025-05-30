@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_philos.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dorianmazari <dorianmazari@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:43:07 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/30 16:18:51 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:07:32 by dorianmazar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_usleep(t_philo *philo, int sleep_time)
 		if (check_death(philo))
 			return (DEAD);
 	}
-	return (ALIVE);
+	return (0);
 }
 
 int	init_destroy_mutex_data(t_data *data, int flag)
