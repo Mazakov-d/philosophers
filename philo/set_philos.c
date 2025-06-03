@@ -6,22 +6,11 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:43:07 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/06/03 09:42:30 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:15:36 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	ft_usleep(int sleep_time)
-{
-	long	start_time;
-	long	target_time;
-
-	start_time = actual_time();
-	target_time = start_time + sleep_time;
-	while (actual_time() < target_time)
-		usleep(100);
-}
 
 int	init_destroy_mutex_data(t_data *data, int flag)
 {

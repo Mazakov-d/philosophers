@@ -6,56 +6,58 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:22:06 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/06/03 09:51:55 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:16:44 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	eat_next(t_philo *philo)
+int	eat_next(t_philo *philo)
 {
 	philo->last_eat = actual_time() - philo->data->start_time;
-	ft_usleep(philo->data->time_eat);
+	usleep(philo->data->time_eat * 1000);
 	if (set_fork_available(philo))
-		return ;
+		return (1);
 	philo->nb_eat += 1;
 	pthread_mutex_lock(&philo->data->meal_m);
 	if (philo->nb_eat == philo->data->nb_eat)
 		philo->data->nb_philo_finish += 1;
 	pthread_mutex_unlock(&philo->data->meal_m);
 	if (print_status(philo, THINK, ALIVE))
-		return ;
+		return (1);
 	usleep(10);
+	return (0);
 }
 
-void	eat(t_philo *philo)
+int	eat(t_philo *philo)
 {
 	if (loop_check_left(philo))
-		return ;
+		return (1);
 	if (print_status(philo, FORK, ALIVE))
-		return ;
+		return (1);
 	if (!philo->r_f)
 	{
-		ft_usleep(philo->data->time_die);
-		return ;
+		usleep(philo->data->time_die * 1000);
+		return (1);
 	}
 	if (loop_check_right(philo))
-		return ;
+		return (1);
 	if (print_status(philo, FORK, ALIVE))
-		return ;
+		return (1);
 	if (print_status(philo, EAT, ALIVE))
-		return ;
-	eat_next(philo);
+		return (1);
+	return (eat_next(philo));
 }
 
-void	sleeping(t_philo *philo)
+int	sleeping(t_philo *philo)
 {
 	if (print_status(philo, SLEEP, ALIVE))
-		return ;
-	ft_usleep(philo->data->time_sleep);
+		return (1);
+	usleep(philo->data->time_sleep * 1000);
 	if (print_status(philo, THINK, ALIVE))
-		return ;
+		return (1);
 	usleep(10);
+	return (0);
 }
 
 int	check_death(t_philo *philo)
@@ -90,14 +92,18 @@ int	check_death(t_philo *philo)
 void	*routine(void *arg)
 {
 	t_philo	*philo;
+	int		flag;
 
 	philo = (t_philo *)arg;
 	if (!(philo->id % 2))
 		usleep(50);
-	while (!check_death(philo))
+	flag = 0;
+	while (!flag)
 	{
-		eat(philo);
-		sleeping(philo);
+		flag = eat(philo);
+		if (flag)
+			break ;
+		flag = sleeping(philo);
 	}
 	return (NULL);
 }

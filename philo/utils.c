@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 23:05:28 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/06/03 09:49:30 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:13:59 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	loop_check_left(t_philo *philo)
 			return (0);
 		}
 		pthread_mutex_unlock(&philo->l_f);
-		usleep(50);
 	}
 	return (1);
 }
@@ -60,7 +59,6 @@ int	loop_check_right(t_philo *philo)
 			return (0);
 		}
 		pthread_mutex_unlock(philo->r_f);
-		usleep(50);
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:30:33 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/06/03 09:50:22 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:17:00 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int			parsing(int ac, char **av, t_data *data);
 /*
 ** set_philos.c
 */
-void		ft_usleep(int sleep_time);
 int			init_destroy_mutex_data(t_data *data, int flag);
 int			init_destroy_all_mutex(t_all *all, int flag, int max);
 void		set_philos_loop(t_all *all, int i);
@@ -99,9 +98,9 @@ int			set_fork_available(t_philo *philo);
 /*
 ** threading.c
 */
-void		eat_next(t_philo *philo);
-void		eat(t_philo *philo);
-void		sleeping(t_philo *philo);
+int			eat_next(t_philo *philo);
+int			eat(t_philo *philo);
+int			sleeping(t_philo *philo);
 int			check_death(t_philo *philo);
 void		*routine(void *arg);
 
