@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 23:05:28 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/06/03 11:13:59 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:55:54 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ long int	actual_time(void)
 
 int	print_status(t_philo *philo, char *str, int flag)
 {
-	if (check_death(philo) && flag != DEAD)
+	if (flag != DEAD && check_death(philo))
 		return (1);
 	pthread_mutex_lock(&philo->data->write_m);
 	printf ("%ld %d %s\n", actual_time() - philo->data->start_time,
@@ -31,36 +31,30 @@ int	print_status(t_philo *philo, char *str, int flag)
 	return (0);
 }
 
-int	loop_check_left(t_philo *philo)
+int	take_left_fork(t_philo *philo)
 {
-	while (!check_death(philo))
+	pthread_mutex_lock(&philo->l_f);
+	if (philo->status_l == AVAILABLE)
 	{
-		pthread_mutex_lock(&philo->l_f);
-		if (philo->status_l == AVAILABLE)
-		{
-			philo->status_l = UNAVAILABLE;
-			pthread_mutex_unlock(&philo->l_f);
-			return (0);
-		}
+		philo->status_l = UNAVAILABLE;
 		pthread_mutex_unlock(&philo->l_f);
+		return (1);
 	}
-	return (1);
+	pthread_mutex_unlock(&philo->l_f);
+	return (0);
 }
 
-int	loop_check_right(t_philo *philo)
+int	take_right_fork(t_philo *philo)
 {
-	while (!check_death(philo))
+	pthread_mutex_lock(philo->r_f);
+	if (*philo->status_r == AVAILABLE)
 	{
-		pthread_mutex_lock(philo->r_f);
-		if (*philo->status_r == AVAILABLE)
-		{
-			*philo->status_r = UNAVAILABLE;
-			pthread_mutex_unlock(philo->r_f);
-			return (0);
-		}
+		*philo->status_r = UNAVAILABLE;
 		pthread_mutex_unlock(philo->r_f);
+		return (2);
 	}
-	return (1);
+	pthread_mutex_unlock(philo->r_f);
+	return (0);
 }
 
 int	set_fork_available(t_philo *philo)
