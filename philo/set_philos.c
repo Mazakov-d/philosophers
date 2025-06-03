@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   set_philos.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dorianmazari <dorianmazari@student.42.f    +#+  +:+       +#+        */
+/*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:43:07 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/30 17:07:32 by dorianmazar      ###   ########.fr       */
+/*   Updated: 2025/06/03 09:42:30 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_usleep(t_philo *philo, int sleep_time)
+void	ft_usleep(int sleep_time)
 {
 	long	start_time;
 	long	target_time;
@@ -20,12 +20,7 @@ int	ft_usleep(t_philo *philo, int sleep_time)
 	start_time = actual_time();
 	target_time = start_time + sleep_time;
 	while (actual_time() < target_time)
-	{
 		usleep(100);
-		if (check_death(philo))
-			return (DEAD);
-	}
-	return (0);
 }
 
 int	init_destroy_mutex_data(t_data *data, int flag)

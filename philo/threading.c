@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threading.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dorianmazari <dorianmazari@student.42.f    +#+  +:+       +#+        */
+/*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:22:06 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/30 17:09:37 by dorianmazar      ###   ########.fr       */
+/*   Updated: 2025/06/03 09:51:55 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	eat_next(t_philo *philo)
 {
-	print_status(philo, EAT, ALIVE);
 	philo->last_eat = actual_time() - philo->data->start_time;
-	if (ft_usleep(philo, philo->data->time_eat))
-		return ;
+	ft_usleep(philo->data->time_eat);
 	if (set_fork_available(philo))
 		return ;
 	philo->nb_eat += 1;
@@ -25,34 +23,38 @@ void	eat_next(t_philo *philo)
 	if (philo->nb_eat == philo->data->nb_eat)
 		philo->data->nb_philo_finish += 1;
 	pthread_mutex_unlock(&philo->data->meal_m);
-	if (check_death(philo))
+	if (print_status(philo, THINK, ALIVE))
 		return ;
-	print_status(philo, THINK, ALIVE);
 	usleep(10);
 }
 
 void	eat(t_philo *philo)
 {
-	loop_check_left(philo);
-	if (check_death(philo))
+	if (loop_check_left(philo))
+		return ;
+	if (print_status(philo, FORK, ALIVE))
 		return ;
 	if (!philo->r_f)
 	{
-		ft_usleep(philo, philo->data->time_die);
+		ft_usleep(philo->data->time_die);
 		return ;
 	}
-	loop_check_right(philo);
-	if (check_death(philo))
-			return ;
+	if (loop_check_right(philo))
+		return ;
+	if (print_status(philo, FORK, ALIVE))
+		return ;
+	if (print_status(philo, EAT, ALIVE))
+		return ;
 	eat_next(philo);
 }
 
 void	sleeping(t_philo *philo)
 {
-	print_status(philo, SLEEP, ALIVE);
-	if (ft_usleep(philo, philo->data->time_sleep))
+	if (print_status(philo, SLEEP, ALIVE))
 		return ;
-	print_status(philo, THINK, ALIVE);
+	ft_usleep(philo->data->time_sleep);
+	if (print_status(philo, THINK, ALIVE))
+		return ;
 	usleep(10);
 }
 
@@ -91,12 +93,10 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (!(philo->id % 2))
-		usleep(100);
+		usleep(50);
 	while (!check_death(philo))
 	{
 		eat(philo);
-		if (check_death(philo))
-			break ;
 		sleeping(philo);
 	}
 	return (NULL);
