@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 15:04:25 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/05/30 15:52:33 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/06 18:13:18 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	parsing(int ac, char **av, t_data *data)
 		data->time_eat = ft_atoi(av[3]);
 		data->time_sleep = ft_atoi(av[4]);
 		data->nb_philo_finish = 0;
-		data->status = ALIVE;
+		data->status = WAIT;
 		data->nb_eat = -1;
 		data->start_time = 0;
 		if (ac == 6)

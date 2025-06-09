@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 15:03:41 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/06/03 11:28:08 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/09 13:21:46 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,27 @@ int	routine_launcher(t_all *all)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	all->data.start_time = actual_time();
-	while (i < all->data.nb_philo)
+	while (++i < all->data.nb_philo)
 	{
-		pthread_create(&all->philos[i].philo, NULL, routine, &all->philos[i]);
-		// if (pthread_create(&all->philos[i].philo, NULL, routine, &all->philos[i]))
-		// {
-		// 	pthread_mutex_lock(&all->data.status_m);
-		// 	all->data.status = DEAD;
-		// 	pthread_mutex_unlock(&all->data.status_m);
-		// 	i--;
-		// 	break ;
-		// }
-		i++;
+		if (pthread_create(&all->philos[i].philo, NULL,
+				routine, &all->philos[i]))
+		{
+			pthread_mutex_lock(&all->data.status_m);
+			all->data.status = CRASH;
+			pthread_mutex_unlock(&all->data.status_m);
+			break ;
+		}
 	}
-	i = 0;
-	while (i < all->data.nb_philo)
+	pthread_mutex_lock(&all->data.status_m);
+	all->data.status = READY;
+	pthread_mutex_unlock(&all->data.status_m);
+	i--;
+	while (i >= 0)
 	{
 		pthread_join(all->philos[i].philo, NULL);
-		i++;
+		i--;
 	}
 	return (0);
 }

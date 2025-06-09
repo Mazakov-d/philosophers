@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:30:33 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/06/03 13:36:34 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/06 15:56:56 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # define ALIVE 0
 # define FINISH 1
 # define DEAD 2
+# define WAIT 3
+# define READY 4
+# define CRASH 5
 
 # define UNAVAILABLE 0
 # define AVAILABLE 1
