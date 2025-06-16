@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:43:07 by dorianmazar       #+#    #+#             */
-/*   Updated: 2025/06/03 13:50:45 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:08:15 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ int	ft_usleep(t_philo *philo, int sleep_time)
 	long	target_time;
 
 	start_time = actual_time();
-	target_time = start_time + sleep_time;
+	if ((sleep_time + philo->last_eat) > philo->data->time_die)
+		target_time = philo->data->time_die;
+	else
+		target_time = start_time + sleep_time;
 	while (actual_time() < target_time)
-	{
 		usleep(100);
-		if (check_death(philo))
-			return (DEAD);
-	}
 	return (0);
 }
 

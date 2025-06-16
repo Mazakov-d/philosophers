@@ -6,7 +6,7 @@
 /*   By: dmazari <dmazari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 12:59:30 by dmazari           #+#    #+#             */
-/*   Updated: 2025/06/09 13:25:28 by dmazari          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:08:36 by dmazari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,6 @@ int	eat_next(t_philo *philo)
 	if (philo->nb_eat == philo->data->nb_eat)
 		philo->data->nb_philo_finish += 1;
 	pthread_mutex_unlock(&philo->data->meal_m);
-	if (print_status(philo, THINK, ALIVE))
-		return (1);
-	usleep(50);
 	return (0);
 }
 
